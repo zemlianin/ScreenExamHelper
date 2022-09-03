@@ -32,10 +32,14 @@ namespace ScreenExam
         {            
             InitializeComponent();
             this.KeyPreview = true;
-            from = File.ReadAllText("from.txt");
-            login = File.ReadAllText("login.txt");
-            to = File.ReadAllText("to.txt");
-            password = File.ReadAllText("password.txt");
+            if(File.Exists("from.txt"))
+                from = File.ReadAllText("from.txt");
+            if (File.Exists("login.txt"))
+                login = File.ReadAllText("login.txt");
+            if (File.Exists("to.txt"))
+                to = File.ReadAllText("to.txt");
+            if (File.Exists("password.txt"))
+                password = File.ReadAllText("password.txt");
             Task.Run(WaitKey);
             
         }
