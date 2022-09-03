@@ -20,19 +20,23 @@ namespace ScreenExam
     {
         public static Bitmap BM = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         public static string path = "";
-        public static string from = "detulje@yandex.ru";
-        public static string login = "detulje";
-        public static string to = "edribnokhod@gmail.com";
-        public static string password = "fshvpmwznypalsgq";
+        public static string from = "";
+        public static string login = "";
+        public static string to = "";
+        public static string password = "";
         public static string host = "smtp.yandex.ru";
         public static int port = 25;
         public static int numberLastMessange = 0;
         public static DateTime timeOfLastMessange;
         public Form1()
         {            
-                InitializeComponent();
-                this.KeyPreview = true;
-                Task.Run(WaitKey);
+            InitializeComponent();
+            this.KeyPreview = true;
+            from = File.ReadAllText("from.txt");
+            login = File.ReadAllText("login.txt");
+            to = File.ReadAllText("to.txt");
+            password = File.ReadAllText("password.txt");
+            Task.Run(WaitKey);
             
         }
         private void MakeScreen()
@@ -41,7 +45,7 @@ namespace ScreenExam
             {
                 Graphics GH = Graphics.FromImage(BM as Image);
                 GH.CopyFromScreen(0, 0, 0, 0, BM.Size);
-                path = $"F:\\CSharp\\AutoScreen\\Screen{DateTime.Now.ToString().Replace(':', '-')}.jpg";
+                path = $"Screens\\Screen{DateTime.Now.ToString().Replace(':', '-')}.jpg";
                 BM.Save(path);
             }
             catch
@@ -111,11 +115,25 @@ namespace ScreenExam
             try
             {
                 if (textBox1.Text != "")
+                {
                     from = textBox1.Text;
+                    File.WriteAllText("from.txt", textBox1.Text);
+                }
+                if (textBox4.Text != "")
+                {
+                    login = textBox4.Text;
+                    File.WriteAllText("login.txt", textBox4.Text);
+                }
                 if (textBox3.Text != "")
+                {
                     password = textBox3.Text;
+                    File.WriteAllText("password.txt", textBox3.Text);
+                }
                 if (textBox2.Text != "")
+                {
                     to = textBox2.Text;
+                    File.WriteAllText("to.txt", textBox2.Text);
+                }
             }
             catch
             {
