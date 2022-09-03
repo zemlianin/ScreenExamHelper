@@ -20,14 +20,20 @@ namespace ScreenExam
     {
         public static Bitmap BM = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         public static string path = "";
-        public static string from = "detulie@mail.ru";
+        public static string from = "detulje@yandex.ru";
+        public static string login = "detulje";
         public static string to = "edribnokhod@gmail.com";
-        public static string password = "up0EEZ2PXhCt9wje8jzu";
+        public static string password = "fshvpmwznypalsgq";
+        public static string host = "smtp.yandex.ru";
+        public static int port = 25;
+        public static int numberLastMessange = 0;
+        public static DateTime timeOfLastMessange;
         public Form1()
-        {
-            InitializeComponent();
-            this.KeyPreview = true;
-            Task.Run(WaitKey);   
+        {            
+                InitializeComponent();
+                this.KeyPreview = true;
+                Task.Run(WaitKey);
+            
         }
         private void MakeScreen()
         {
@@ -43,27 +49,32 @@ namespace ScreenExam
 
             }
         }
-
+        
         private void SendMail()
         {
             try
             {
+                if (DateTime.Now != timeOfLastMessange)
+                {
+                    numberLastMessange++;
+                    timeOfLastMessange = DateTime.Now;
+                }
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(from); // Адрес отправителя
                 mail.To.Add(new MailAddress(to)); // Адрес получателя
-                mail.Subject = "Заголовок";
-                mail.Body = "Письмо........................";
+                mail.Subject = "Скрин";
+                mail.Body = $"Скрин-№{numberLastMessange}\nВы получили это письмо так как подписались на данную рассылку";
                 mail.Attachments.Add(new Attachment(path));
                 SmtpClient client = new SmtpClient();
-                client.Host = "smtp.mail.ru";
-                client.Port = 587; // Обратите внимание что порт 587
+                client.Host = host;
+                client.Port = port; // Обратите внимание что порт 587                
+                client.Credentials = new NetworkCredential(login, password); // Ваши логин и пароль
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential(from, password); // Ваши логин и пароль
-                client.Send(mail);
+                client.Send(mail);    
             }
             catch
             {
-
+               
             }
         }
         
@@ -85,6 +96,7 @@ namespace ScreenExam
             }
             catch
             {
+                
                 Application.Restart();
             }
         }
@@ -96,17 +108,31 @@ namespace ScreenExam
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != "") 
-            from = textBox1.Text;
-            if (textBox3.Text != "") 
-            password = textBox3.Text;
-            if (textBox2.Text != "") 
-            to = textBox2.Text;
+            try
+            {
+                if (textBox1.Text != "")
+                    from = textBox1.Text;
+                if (textBox3.Text != "")
+                    password = textBox3.Text;
+                if (textBox2.Text != "")
+                    to = textBox2.Text;
+            }
+            catch
+            {
+
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Opacity = 0;
+            try
+            {
+                this.Opacity = 0;
+            }
+            catch
+            {
+
+            }
         }
     }
 }
