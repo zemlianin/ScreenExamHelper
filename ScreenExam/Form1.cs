@@ -94,7 +94,7 @@ namespace ScreenExam
                 {
 
                     System.Threading.Thread.Sleep(1000);
-                    if ((ModifierKeys & Keys.Control) != 0)
+                    if ((ModifierKeys == (Keys.Control|Keys.Shift)))
                     {
                        
                         MakeScreen();
@@ -150,6 +150,7 @@ namespace ScreenExam
             try
             {
                 this.Opacity = 0;
+                ShowInTaskbar = false;
             }
             catch
             {
