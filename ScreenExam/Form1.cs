@@ -150,6 +150,7 @@ namespace ScreenExam
             try
             {
                 this.Opacity = 0;
+                Hide();
                 ShowInTaskbar = false;
             }
             catch
